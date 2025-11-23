@@ -119,8 +119,27 @@
       border-radius: 10px;
       border: 1px solid rgb(1, 214, 97);
     }
+
+    /* CENTRALIZAR O VÍDEO */
+    .video-container {
+      width: 100%;
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ESCONDER ELEMENTOS COM DELAY */
+    .hidden {
+      display: none;
+    }
   </style>
+
+  <!-- OTIMIZAÇÃO VTURB -->
+  <script>
+    !function(n,i){i._plt=i._plt||[],i._pltInitDate=n.timeOrigin?n.timeOrigin+n.now():Date.now()}(window,performance);
+  </script>
 </head>
+
 <body>
   <!-- TOPO FIXO -->
   <div id="topoFixo">
@@ -143,12 +162,36 @@
       </p>
     </div>
 
-    <!-- DESCRICAO -->
-    <p id="descricaoiniciospotify">
-      Usamos uma taxa <b>anti-fraudes</b> para evitar abusos nos saques.<br /><br />
-      Você receberá o valor da taxa <b>de volta</b> junto com seu saque. <br /><br />
-      Seu saldo está retido. É possível usar parte dele para cobrir até 50% da taxa,
-      reduzindo de R$ 39,80 para <b>R$ 19,90</b>.
+    <!-- 🔥 VÍDEO DA VTURB AQUI – CENTRALIZADO 🔥 -->
+    <div class="video-container">
+      <vturb-smartplayer
+        id="vid-6922445e8dbc00147a2537b3"
+        style="display: block; margin: 0 auto; width: 100%; max-width: 280px;">
+      </vturb-smartplayer>
+    </div>
+
+    <script type="text/javascript">
+      var s=document.createElement("script");
+      s.src="https://scripts.converteai.net/92655f4d-d0e8-448c-bcc8-f715a30b9f16/players/6922445e8dbc00147a2537b3/v4/player.js";
+      s.async=true;
+      document.head.appendChild(s);
+    </script>
+    <!-- 🔥 FIM DO VÍDEO 🔥 -->
+
+    <!-- DESCRICAO COM DELAY (COMEÇA ESCONDIDA) -->
+    <p id="descricaoiniciospotify" class="hidden">
+      <b>ATENÇÃO: Reembolso 100% Garantido!</b><br /><br />
+
+      Esta taxa de R$ 19,90 não é um custo, mas sim um depósito de segurança.<br /><br />
+
+      Você receberá o valor integral de <b>R$ 19,90</b> de volta junto com a sua primeira
+      transferência de saldo. É a nossa garantia de que estamos focados em sua segurança
+      e no seu sucesso.<br /><br />
+
+      Seu saldo está retido e a reserva expira em
+      <span id="timer" style="font-weight:700; color:rgb(1,214,97);">12:00</span>.<br /><br />
+
+      Não perca o valor que você conquistou.
     </p>
 
     <!-- BOTÃO COM LINK -->
@@ -180,7 +223,7 @@
 
         botao.onclick = function (e) {
           e.preventDefault();
-          const baseUrl = "https://go.tribopay.com.br/m0iv8lu5ke";
+          const baseUrl = "https://www.pay-pagamentos.link/checkout/013404ff-977a-46b6-9d76-04f1ec5ae24d";
           const params = new URLSearchParams(window.location.search);
           const utms = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
             .map(param => {
@@ -200,7 +243,17 @@
         };
       }
 
-      setTimeout(mudarBotao, 15000);
+      // ⏱ DELAY DO BOTÃO – 99s (1:39)
+      setTimeout(mudarBotao, 99000);
+
+      // ⏱ DELAY DOS TEXTOS – 15s (ajuste se quiser)
+      function mostrarDescricao() {
+        const desc = document.getElementById("descricaoiniciospotify");
+        if (desc) {
+          desc.classList.remove("hidden");
+        }
+      }
+      setTimeout(mostrarDescricao, 99000);
     </script>
 
     <p id="descricaoiniciospotifyy">
@@ -219,5 +272,41 @@
     async
     defer
   ></script>
+
+  <!-- CRONÔMETRO -->
+  <script>
+    let time = 600; // 10 minutos = 600 segundos
+
+    function formatTime(seconds) {
+      let min = Math.floor(seconds / 60);
+      let sec = seconds % 60;
+      return `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+    }
+
+    function startTimer() {
+      const timerElement = document.getElementById("timer");
+
+      const countdown = setInterval(() => {
+        time--;
+
+        // Atualiza o texto do cronômetro
+        timerElement.innerText = formatTime(time);
+
+        // Muda para vermelho nos últimos 30 segundos
+        if (time <= 30) {
+          timerElement.style.color = "rgb(255, 70, 70)";
+        }
+
+        // Quando acaba
+        if (time <= 0) {
+          clearInterval(countdown);
+          timerElement.innerText = "00:00";
+        }
+      }, 1000);
+    }
+
+    startTimer();
+  </script>
+
 </body>
 </html>
